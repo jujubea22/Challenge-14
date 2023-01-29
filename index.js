@@ -23,7 +23,7 @@ function addDepartment() {
     inquirer
         .prompt([
             {
-                type: 'text',
+                type: 'input',
                 name: 'departmentName',
                 message: 'What is the department?',
             }
@@ -69,7 +69,7 @@ function addRole() {
     inquirer
         .prompt([
             {
-                type: 'text',
+                type: 'input',
                 name: 'roleName',
                 message: 'What is the role?',
             },
@@ -95,15 +95,15 @@ function addRole() {
                 },
                 body: JSON.stringify({ roleName: answers.roleName, roleSalary: answers.roleSalary, depId: answers.department })
             }).then(async x => {
-                console.log("Successfully created new role");
+                console.log("Successfully created your new role");
                 init();
             });
         })
         .catch((error) => {
             if (error.isTtyError) {
-                console.log("Could not be rendered in current environment")
+                console.log("Error has occured")
             } else {
-                console.log("Something went horribly wrong")
+                console.log("OH nooo...Something went wrong")
                 console.log(error)
             }
         });
@@ -168,9 +168,9 @@ function addEmployee() {
         })
         .catch((error) => {
             if (error.isTtyError) {
-                console.log("Error in current environment")
+                console.log("Error has occured")
             } else {
-                console.log("Something went horribly wrong")
+                console.log("OH nooo...Something went wrong")
                 console.log(error)
             }
         });
@@ -209,9 +209,9 @@ function updateEmployeeRole() {
         })
         .catch((error) => {
             if (error.isTtyError) {
-                console.log("Error in current environment")
+                console.log("Error has occured")
             } else {
-                console.log("Error something is not right")
+                console.log("OH nooo...Something went wrong")
                 console.log(error)
             }
         });
@@ -223,16 +223,16 @@ const questions = [
         name: 'tracker',
         message: 'What would you like to do?',
         choices: [
+            'View All Employees',
             'View All Departments',
             'View All Roles',
-            'View All Employees',
+            'Add Employee',
             'Add Department',
             'Add Role',
-            'Add Employee',
-            'Update Employee Role',
-            'Quit',
+            'Update an Employee Role',
+            'Quit-leave page',
         ],
-        default: "View All Departments",
+        default: "View All Employees",
         loop: true
     }
 ];
@@ -242,37 +242,46 @@ function init() {
         .prompt(questions)
         .then((answers) => {
             switch (answers.tracker) {
-                case "View All Departments":
+                case "View All Employees":
+                    getEmployees().then(async x => {
+                        let result = await x.json();
+                        console.table(result);
+                        init();
+                        
+                         return;
+                    
+                        case "View All Departments":
                     getDepartments().then(async x => {
                         let result = await x.json();
                         console.table(result);
                         init();
                     });
+                        
                     return;
+                        
                 case "View All Roles":
                     getRoles().then(async x => {
                         let result = await x.json();
                         console.table(result);
                         init();
                     });
+                   
+             
                     return;
-                case "View All Employees":
-                    getEmployees().then(async x => {
-                        let result = await x.json();
-                        console.table(result);
-                        init();
-                    });
-                    return;
-                case "Add Department":
-                    addDepartment();
-                    return;
-                case "Add Role":
-                    addRole();
-                    return;
+                        
                 case "Add Employee":
                     addEmployee();
                     return;
-                case "Update Employee Role":
+                        
+                case "Add Department":
+                    addDepartment();
+                    return;
+                
+                case "Add Role":
+                    addRole();
+                    return;
+              
+                case "Update an Employee Role":
                     updateEmployeeRole();
                     return;
                 default:
@@ -281,9 +290,9 @@ function init() {
         })
         .catch((error) => {
             if (error.isTtyError) {
-                console.log("Error in current environment")
+                console.log("Error has occured")
             } else {
-                console.log("Error something is not right")
+                console.log("OH nooo...Something went wrong")
                 console.log(error)
             }
         });
