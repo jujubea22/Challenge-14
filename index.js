@@ -62,7 +62,8 @@ function addEmployee() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ employeeFirstName: answers.employeeFirstName, employeeLastName: answers.employeeLastName, roleId: answers.role, managerId: answers.manager })
+                body: JSON.stringify({ employeeFirstName: answers.employeeFirstName, employeeLastName: answers.employeeLastName, 
+                                        roleId: answers.role, managerId: answers.manager })
             }).then(async x => {
                 init();
             });
