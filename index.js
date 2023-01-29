@@ -3,13 +3,6 @@ require('dotenv').config();
 const fetch = require('node-fetch');
 const cTable = require('console.table')
 
-const getDepartments = () => fetch('http://localhost:3301/api/departments', {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
-
 const getEmployees = () => fetch('http://localhost:3301/api/employees', {
     method: 'GET',
     headers: {
@@ -24,6 +17,13 @@ const getEmployeesForList = () => getEmployees()
         return {name: x['first_name'] + ' ' + x['last_name'], value: x['id']};
     });
     return listOfEmployees;
+});
+
+const getDepartments = () => fetch('http://localhost:3301/api/departments', {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    },
 });
 
 function addEmployee() {
