@@ -1,0 +1,9 @@
+# Employee Tracker Application
+
+## Description
+
+The employee tracker application is will allow a user to see the Employees, their deparments and manager. 
+From there you can aslo add employees and update their information, promotions etc. 
+
+Future development I would like to add more dependancies and ablities between the roles and departments. 
+So when you update / move and employee all of the new things they need for the department and or rule automatically get assigned. 
