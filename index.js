@@ -10,105 +10,6 @@ const getDepartments = () => fetch('http://localhost:3301/api/departments', {
     },
 });
 
-const getDepartmentsForList = () => getDepartments()
-.then(async x => {
-    let result = await x.json();
-    let listOfDepartment = result.map(x => {
-        return {name: x['name'], value: x['id']};
-    });
-    return listOfDepartment;
-});
-
-function addDepartment() {
-    inquirer
-        .prompt([
-            {
-                type: 'input',
-                name: 'departmentName',
-                message: 'What is the department?',
-            }
-        ])
-        .then((answers) => {
-            fetch('http://localhost:3301/api/departments', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name: answers.departmentName })
-            }).then(async x => {
-                init();
-            });
-        })
-        .catch((error) => {
-            if (error.isTtyError) {
-                console.log("Error has occured")
-            } else {
-                console.log("OH nooo...Something went wrong")
-                console.log(error)
-            }
-        });
-}
-
-const getRoles = () => fetch('http://localhost:3301/api/roles', {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
-
-const getRolesForList = () => getRoles()
-.then(async x => {
-    let result = await x.json();
-    let listOfRole = result.map(x => {
-        return {name: x['title'], value: x['id']};
-    });
-    return listOfRole;
-});
-
-function addRole() {
-    inquirer
-        .prompt([
-            {
-                type: 'input',
-                name: 'roleName',
-                message: 'What is the role?',
-            },
-            {
-                type: 'text',
-                name: 'roleSalary',
-                message: 'What is the salary?',
-            },
-            {
-                type: 'list',
-                name: 'department',
-                message: 'What is the department?',
-                choices: getDepartmentsForList,
-                default: "None",
-                loop: true
-            }
-        ])
-        .then((answers) => {
-            fetch('http://localhost:3301/api/roles', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ roleName: answers.roleName, roleSalary: answers.roleSalary, depId: answers.department })
-            }).then(async x => {
-                console.log("Successfully created your new role");
-                init();
-            });
-        })
-        .catch((error) => {
-            if (error.isTtyError) {
-                console.log("Error has occured")
-            } else {
-                console.log("OH nooo...Something went wrong")
-                console.log(error)
-            }
-        });
-}
-
 const getEmployees = () => fetch('http://localhost:3301/api/employees', {
     method: 'GET',
     headers: {
@@ -204,6 +105,105 @@ function updateEmployeeRole() {
                 },
                 body: JSON.stringify({ employee: answers.employee, role: answers.role })
             }).then(async x => {
+                init();
+            });
+        })
+        .catch((error) => {
+            if (error.isTtyError) {
+                console.log("Error has occured")
+            } else {
+                console.log("OH nooo...Something went wrong")
+                console.log(error)
+            }
+        });
+}
+
+const getDepartmentsForList = () => getDepartments()
+.then(async x => {
+    let result = await x.json();
+    let listOfDepartment = result.map(x => {
+        return {name: x['name'], value: x['id']};
+    });
+    return listOfDepartment;
+});
+
+function addDepartment() {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'departmentName',
+                message: 'What is the department?',
+            }
+        ])
+        .then((answers) => {
+            fetch('http://localhost:3301/api/departments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: answers.departmentName })
+            }).then(async x => {
+                init();
+            });
+        })
+        .catch((error) => {
+            if (error.isTtyError) {
+                console.log("Error has occured")
+            } else {
+                console.log("OH nooo...Something went wrong")
+                console.log(error)
+            }
+        });
+}
+
+const getRoles = () => fetch('http://localhost:3301/api/roles', {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
+const getRolesForList = () => getRoles()
+.then(async x => {
+    let result = await x.json();
+    let listOfRole = result.map(x => {
+        return {name: x['title'], value: x['id']};
+    });
+    return listOfRole;
+});
+
+function addRole() {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'roleName',
+                message: 'What is the role?',
+            },
+            {
+                type: 'text',
+                name: 'roleSalary',
+                message: 'What is the salary?',
+            },
+            {
+                type: 'list',
+                name: 'department',
+                message: 'What is the department?',
+                choices: getDepartmentsForList,
+                default: "None",
+                loop: true
+            }
+        ])
+        .then((answers) => {
+            fetch('http://localhost:3301/api/roles', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ roleName: answers.roleName, roleSalary: answers.roleSalary, depId: answers.department })
+            }).then(async x => {
+                console.log("Successfully created your new role");
                 init();
             });
         })
