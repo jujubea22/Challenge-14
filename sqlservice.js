@@ -36,20 +36,6 @@ app.listen(PORT, () => {
   console.log(`Server-port running ${PORT}`);
 });
 
-app.post('/api/departments', (req, res) => {
-  db.query(`Insert department (name)
-    VALUES ("${req.body.name}")`, function (err, results) {
-    res.json(results);
-    });
-})
-
-app.post('/api/roles', (req, res) => {
-  db.query(`Insert role (title, salary, department_id)
-    VALUES ("${req.body.roleName}", ${req.body.roleSalary}, ${req.body.depId})`, function (err, results) {
-    res.json(results);
-    });
-})
-
 app.get('/api/employees', (req, res) => {
   db.query(`SELECT e.id, e.first_name, e.last_name, role.title, department.name, role.salary, CONCAT(m.first_name, ' ', m.last_name) AS 'Manager' 
   from employee e JOIN role on e.role_id = role.id JOIN department on role.department_id = department.id LEFT JOIN employee m on e.manager_id = m.id ORDER BY e.id ASC`, function (err, results) {
@@ -64,6 +50,28 @@ app.post('/api/employees', (req, res) => {
     });
 })
 
+app.patch('/api/employees', (req, res) => {
+  db.query(`UPDATE employee
+    SET role_id = "${req.body.role}"
+    WHERE id = "${req.body.employee}"`, function (err, results) {
+    res.json(results);
+    });
+})
+
+app.post('/api/departments', (req, res) => {
+  db.query(`Insert department (name)
+    VALUES ("${req.body.name}")`, function (err, results) {
+    res.json(results);
+    });
+})
+
+app.post('/api/roles', (req, res) => {
+  db.query(`Insert role (title, salary, department_id)
+    VALUES ("${req.body.roleName}", ${req.body.roleSalary}, ${req.body.depId})`, function (err, results) {
+    res.json(results);
+    });
+})
+
 app.get('/api/roles', (req, res) => {
   db.query(`select role.id, role.title, department.name, role.salary
   FROM role 
@@ -73,13 +81,6 @@ app.get('/api/roles', (req, res) => {
     });
 })
 
-app.patch('/api/employees', (req, res) => {
-  db.query(`UPDATE employee
-    SET role_id = "${req.body.role}"
-    WHERE id = "${req.body.employee}"`, function (err, results) {
-    res.json(results);
-    });
-})
 
 
 
