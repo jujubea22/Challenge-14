@@ -25,7 +25,7 @@ const getDepartments = () => fetch('http://localhost:3301/api/departments', {
         'Content-Type': 'application/json',
     },
 });
-//function for an employee
+
 function addEmployee() {
     inquirer
         .prompt([
@@ -77,7 +77,7 @@ function addEmployee() {
             }
         });
 }
-//adding a role to the employee
+
 function updateEmployeeRole() {
     inquirer
         .prompt([
@@ -251,7 +251,7 @@ function init() {
                         
                          return;
                     
-                        case "View All Departments":
+                    case "View All Departments":
                     getDepartments().then(async x => {
                         let result = await x.json();
                         console.table(result);
